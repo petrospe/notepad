@@ -20,6 +20,17 @@ window.onclick = function(event) {
 }
 
 // Content
+
+// let url = 'json/content.json';
+//
+// fetch(url)
+// .then(res => res.json())
+// .then(out =>
+//   console.log('Checkout this JSON! ', out))
+// .catch(err => 'throw err');
+//
+
+
 const articles = document.getElementsByClassName("card");
 
 for (const [key, article] of Object.entries(articles)) {
