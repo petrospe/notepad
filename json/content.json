@@ -2,9 +2,9 @@
   "articles":[
     {
       "id":3,
-      "title":"Just a blog post",
-      "date":"26 October, 2014",
-      "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Donec ut libero sed arcu vehicula ultricies a non tortor. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies.<br /> Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies. Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Quisque mi metus, ornare sit amet fermentum et, tincidunt et orci."
+      "title":"Είναι τα crypto χρήμα;",
+      "date":"8 Σεπτεμρίου, 2021",
+      "text":"Εαν ένα κρυπτονόμισμα θέλουμε να αποτελεί χρήμα θα πρέπει να έχει όλα τα παρακάτω χαρακτηριστικά<br/><br/>όσο το δυνατό μια σταθερή ισοτιμία είτε με fiat νομίσματα πχ ευρώ, δολάριο κλπ ή ακόμη καλύτερα να αντιπροσωπεύει κάποιο πραγματικό αγαθό, είτε μη διαρκή πχ καφές, ζάχαρη κλπ ή διαρκή πχ χρυσός, διαμάντια κλπ ώστε η ποσότητα κυκλοφορίας του να εξαρτάται από αυτό το αγαθό πχ 1 μόναδα του νομίσματος να ισούται με 1 γραμμάριο χρυσό και άρα η ποσότητά του θα είναι όσα και τα γραμμαρια χρυσού που έχουν εξορυχθεί στη γη ή τέλος μια σταθερή ισοτιμία με κάποιο minable κρυπτονόμισμα σταθερής ποσότητας πχ bitcoin, litecoin κλπ.<br/>Θα πρέπει να έχει πολύ χαμηλά τέλη συναλλαγών αν είναι δυνατό και μηδενικά.<br/>θα πρέπει να έχει χαμηλό οικολογικό αποτύπωμα πχ proof of stake και όχι minable.<br/>Θα πρέπει να είναι φτήνο πχ με αξία κάτω απο 1 δολάριο ή 1 ευρώ, ωστε να είναι προσιτό και σε ανθρώπους με χαμηλά μεροκάματα ώστε να μην κατέχουν απλά υποδιαιρέσεις του.<br/>Θα πρέπει να είναι ανοικτού κώδικα και να μη χειραγωγείται απο ιδιωτικές ή κρατικές εταιρείες, τράπεζες και οργανισμούς.<br/>Θα πρεπει να έχει ισχυρή κρυπτογράφηση και να είναι quantum computing resistance.<br/>Να βασίζεται στην τεχνολογία blockchain.<br/>Να εκτελεί εκατομμύρια συναλλάγες ταυτόχρονα χωρίς καθυστερήσεις μεγαλυτερες των 30 sec.<br/>Να μπορεί να το αποκτησει οποιοσδήποτε στον κόσμο."
     },
     {
       "id":2,
