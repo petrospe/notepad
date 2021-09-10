@@ -98,6 +98,10 @@ body{
   line-height:22px;
 }
 
+.hide {
+  display: none;
+}
+
 /* nav menu */
 a {
   text-decoration: none;
