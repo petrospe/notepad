@@ -20,36 +20,53 @@ window.onclick = function(event) {
 }
 
 // Content
+let content;
 
-// let url = 'json/content.json';
-//
-// fetch(url)
-// .then(res => res.json())
-// .then(out =>
-//   console.log('Checkout this JSON! ', out))
-// .catch(err => 'throw err');
-//
+let contentURL = 'json/content.json';
 
+const articles = document.getElementById("articles");
 
-const articles = document.getElementsByClassName("card");
+fetch(contentURL)
+.then(response => response.json())
+.then(data => content = data)
+.then(() => {
+  for (var key in content.articles) {
 
-for (const [key, article] of Object.entries(articles)) {
+    var divcard = document.createElement('div');
+    divcard.classList.add("card");
+    divcard.setAttribute("id", "article-"+key);
+    if(key==0)
+      divcard.classList.add("first");
 
-  article.setAttribute("id", "article-"+key);
-  if(key==0)
-    article.classList.add("first");
+    var titleH2 = document.createElement('h2');
+    var titleA = document.createElement('a');
+    titleA.setAttribute("href", "javascript: void(0)");
+    var titleH2Text = document.createTextNode(content.articles[key].title);
+    titleA.appendChild(titleH2Text);
+    titleH2.appendChild(titleA);
+    divcard.appendChild(titleH2);
 
-  const text = article.getElementsByClassName("text");
-  const teaser = text[0].innerHTML.split(' ').slice(0, 39).join(' ');
+    var dateP = document.createElement('p');
+    dateP.classList.add("date");
+    var datePText = document.createTextNode(content.articles[key].date);
+    dateP.appendChild(datePText);
+    divcard.appendChild(dateP);
 
-  text[0].innerHTML = teaser;
+    var teaser = content.articles[key].text.split(' ').slice(0, 39).join(' ');
+    var textP = document.createElement('p');
+    textP.classList.add("text");
+    var textPText = document.createTextNode(teaser);
+    textP.appendChild(textPText);
+    divcard.appendChild(textP);
 
-  var buttontext = document.createTextNode('Show more');
-  var buttonshowmore = document.createElement('button');
-  buttonshowmore.classList.add("button");
-  buttonshowmore.classList.add("button-clear");
-  buttonshowmore.appendChild(buttontext);
-  article.appendChild(buttonshowmore);
+    var buttonText = document.createTextNode('Show more');
+    var buttonShowMore = document.createElement('button');
+    buttonShowMore.classList.add("button");
+    buttonShowMore.classList.add("button-clear");
+    buttonShowMore.appendChild(buttonText);
+    divcard.appendChild(buttonShowMore);
 
-  //console.log(sentences[0]);
-}
+    articles.appendChild(divcard);
+    
+  }
+})
