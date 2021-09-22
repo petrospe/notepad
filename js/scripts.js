@@ -61,7 +61,8 @@ fetch(contentURL)
     if(content.articles[key].image)
       image = document.createElement('img');
       image.classList.add("main");
-      image.innerHTML = "<img src='"+content.articles[key].image+"' alt='Image"+key+"'>"
+      image.setAttribute("src", content.articles[key].image);
+      image.setAttribute("alt", "image-"+key);
       divcard.appendChild(image);
 
     var teaser = content.articles[key].text.split(' ').slice(0, 39).join(' ');
