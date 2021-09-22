@@ -56,6 +56,12 @@ fetch(contentURL)
     dateP.classList.add("date");
     dateP.innerHTML = content.articles[key].date;
     divcard.appendChild(dateP);
+    
+    var image = '';
+    if(content.articles[key].image)
+      image = document.createElement('img');
+      image.innerHTML = "<img src='"+content.articles[key].image+"' alt='Image"+key+"'>"
+      divcard.appendChild(image);
 
     var teaser = content.articles[key].text.split(' ').slice(0, 39).join(' ');
     var teaserP = document.createElement('p');
