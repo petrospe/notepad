@@ -60,6 +60,7 @@ fetch(contentURL)
     var image = '';
     if(content.articles[key].image)
       image = document.createElement('img');
+      image.classList.add("main");
       image.innerHTML = "<img src='"+content.articles[key].image+"' alt='Image"+key+"'>"
       divcard.appendChild(image);
 
