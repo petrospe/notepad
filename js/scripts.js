@@ -58,7 +58,7 @@ fetch(contentURL)
     divcard.appendChild(dateP);
     
     var image = '';
-    if(content.articles[key].image)
+    if(content.articles[key].image.length)
       image = document.createElement('img');
       image.classList.add("main");
       image.setAttribute("src", content.articles[key].image);
