@@ -56,13 +56,13 @@ fetch(contentURL)
     dateP.classList.add("date");
     dateP.innerHTML = content.articles[key].date;
     divcard.appendChild(dateP);
-    
-    if(content.articles[key].image.length)
-      var mainimg = document.createElement('img');
-      mainimg.classList.add("main");
-      mainimg.setAttribute("src", content.articles[key].image);
-      mainimg.setAttribute("alt", "image-"+key);
-      divcard.appendChild(mainimg);
+
+    if(content.articles[key].image){
+      var imageP = document.createElement('p');
+      imageP.classList.add("mainimg");
+      imageP.innerHTML = "<img src='"+content.articles[key].image+"' alt='image="+key+"' width='150'>";
+      divcard.appendChild(imageP);
+    }
 
     var teaser = content.articles[key].text.split(' ').slice(0, 39).join(' ');
     var teaserP = document.createElement('p');
