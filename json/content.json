@@ -1,6 +1,13 @@
 {
   "articles":[
     {
+      "id":5,
+      "title":"Επικές μεταφράσεις",
+      "date":"1 Οκτωβρίου, 2021",
+      "image":"",
+      "text":"Πεδίον του Άρεως = Mars field<br/>Μοναστηράκι = Small Monastery<br/>Πλατεία Ομόνοιας = Concord Square<br/>Πλατεία Συνταγμάγματος = Constitution Square<br/>Πλακα = Plate<br/>Κολωνάκι = Small Column<br/>Πλατεία Βάθης = Deep Square<br/>Λεωφόρος Βασιλίσσης Σοφίας = Queen Wisdom Avenue (doctor wisdom! είναι το επόμενο στάδιο)<br/>Νέος Κόσμος = New World (παλιό)<br/>Οδος Εθνικής Αντιστάσεως = National Resistance Road<br/>Αγία Παρασκευή = Santa Friday (επιδή η Παρασκευή μας αρέσει με κάποιο τρόπο περισσότερο από τη Δευτέρα, και την κάναμε και άγια)<br/>Τρεις Γέφυρες = Three Bridges<br/>Πετρούπολη = Stonecity<br/>Ανθούπολη = Flowercity<br/>Μαγούλα = Cheeks<br/>Μάνδρα = Paddock<br/>Δήμος Μεταμόρφωσης-Λυκόβρυσης = Municipality of Transformation-Wolf Fountain<br/>Δήμος Περιστέριου = Municipality of Dove<br/>Δημος Καλλιθέας = Municipality of Νice view (nice view μονο από το Sicily Hill)<br/>Δημος Μοσχάτου Ταύρου = Municipality of Muscatel Bull (κάπου στην Ισπανία είναι αυτό;)<br/>Αμφιθέα = Semiview (περίπου σαν simifinal)<br/>Παναγίτσα = Little Virgin or Little Madonna (εδώ έχεις ένα συνειρμό με Madonna - Like a virgin!)<br/>Ηλιούπουλη = Suncity (τετριμμένα)<br/>Αργυρούπολη= Silvercity (τετριμμένα)<br/>Δήμος Βούλας Βουλιαγμένης = Municipality of Sunken Dot (σαν κινέζικη πόλη ακούγεται)<br/>Λαιμός Βουλιαγμένης = Neck of Sunken<br/>Καβούρι = crab<br/>Λαγονήσι = Rabbit Island (σαν την Αλίκη στη χώρα των θαυμάτων περίπου)<br/><br/>και για το τέλος Ακρόπολη = Edgecity"
+    },
+    {
       "id":4,
       "title":"Κατάργηση των διαφημίσεων",
       "date":"28 Σεπτεμβρίου, 2021",
