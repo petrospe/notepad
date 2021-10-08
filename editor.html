@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Editor</title>
+    <script src="js/ckeditor.js"></script>
+  </head>
+  <body>
+    <div id="editor">This is some sample content.</div>
+    <button type="button" value="Convert Me" onclick="document.getElementById('textdata').innerHTML = htmlEncode(document.getElementsByClassName('ck-content')[0].innerHTML); ShowDiv();" style="margin-top: 10px;"/>Convert Text</button>
+    <div id="encoded-html" style="display:none;">
+      <h4>Converted HTML</h4></div>
+    <div id="textdata"></div>
+    <script>
+      function removeLineBreaks (text) {
+          // Line Breaks
+          var text = text.replace(/\r\n?|\n/g, "<br>");
+          return text;
+      }
+
+      function htmlEncode (html) {
+          var html = removeLineBreaks(html);
+          return html.replace(/[&"'\<\>]/g, function(c)
+          {
+                switch (c)
+                {
+                    case "&":
+                      return "&amp;";
+                    case "'":
+                      return "&#39;";
+                    case '"':
+                      return "&quot;";
+                    case "<":
+                      return "&lt;";
+                    default:
+                      return "&gt;";
+                }
+          });
+      };
+
+      function ShowDiv() {
+          document.getElementById("encoded-html").style.display = "";
+      }
+
+      ClassicEditor
+              .create( document.querySelector( '#editor' ) )
+              .then( editor => {
+                      console.log( editor );
+              } )
+              .catch( error => {
+                      console.error( error );
+              } );
+    </script>
+  </body>
+</html>
