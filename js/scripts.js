@@ -52,30 +52,30 @@ fetch(contentURL)
     li.innerHTML = `<a href="javascript: void(0)" onclick="show(`+key+`)">`+content.articles[key].title+`</a>`;
     ul.appendChild(li);
 
-    var dateP = document.createElement('p');
-    dateP.classList.add("date");
-    dateP.innerHTML = content.articles[key].date;
-    divcard.appendChild(dateP);
+    var dateDiv = document.createElement('div');
+    dateDiv.classList.add("date");
+    dateDiv.innerHTML = content.articles[key].date;
+    divcard.appendChild(dateDiv);
 
     if(content.articles[key].image){
-      var imageP = document.createElement('p');
-      imageP.classList.add("mainimg");
-      imageP.innerHTML = "<img src='"+content.articles[key].image+"' alt='image="+key+"' width='150'>";
-      divcard.appendChild(imageP);
+      var imageDiv = document.createElement('div');
+      imageDiv.classList.add("mainimg");
+      imageDiv.innerHTML = "<img src='"+content.articles[key].image+"' alt='image="+key+"' width='150'>";
+      divcard.appendChild(imageDiv);
     }
 
     var teaser = content.articles[key].text.split(' ').slice(0, 39).join(' ');
-    var teaserP = document.createElement('p');
-    teaserP.classList.add("text");
-    teaserP.classList.add("teaser");
-    teaserP.innerHTML = teaser+" ...";
-    divcard.appendChild(teaserP);
+    var teaserDiv = document.createElement('div');
+    teaserDiv.classList.add("text");
+    teaserDiv.classList.add("teaser");
+    teaserDiv.innerHTML = teaser+" ...";
+    divcard.appendChild(teaserDiv);
 
-    var textP = document.createElement('p');
-    textP.classList.add("text");
-    textP.classList.add("hide");
-    textP.innerHTML = content.articles[key].text;
-    divcard.appendChild(textP);
+    var textDiv = document.createElement('div');
+    textDiv.classList.add("text");
+    textDiv.classList.add("hide");
+    textDiv.innerHTML = content.articles[key].text;
+    divcard.appendChild(textDiv);
 
     var buttonShowMore = document.createElement('button');
     buttonShowMore.classList.add("button");
