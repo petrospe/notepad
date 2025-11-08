@@ -1,9 +1,0 @@
-// Material design
-https://codepen.io/chrisfrees/pen/AzsID
-// CSS Color Design
-https://www.schemecolor.com/light-webdesign.php
-// Nav menu
-https://css-tricks.com/solved-with-css-dropdown-menus/
-// javascript split sentences
-https://nkhilv.medium.com/display-only-the-first-x-characters-of-a-string-using-javascript-b0dbe93efbd
-https://stackoverflow.com/questions/68064790/how-to-display-first-20-words-on-screen-then-next-20-words-through-javascript

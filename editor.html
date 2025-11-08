@@ -4,52 +4,586 @@
     <meta charset="utf-8">
     <title>Editor</title>
     <script src="js/ckeditor.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+      }
+      .controls {
+        margin-bottom: 20px;
+      }
+      .controls select, .controls input, .controls button {
+        margin: 5px;
+        padding: 8px;
+        font-size: 14px;
+      }
+      .controls input[type="text"] {
+        width: 300px;
+      }
+      .status {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .status.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .status.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .status.info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      #editor {
+        min-height: 400px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      button:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+      #deleteBtn:hover {
+        background-color: #c82333 !important;
+      }
+    </style>
   </head>
   <body>
-    <div id="editor">This is some sample content.</div>
-    <button type="button" value="Convert Me" onclick="document.getElementById('textdata').innerHTML = htmlEncode(document.getElementsByClassName('ck-content')[0].innerHTML); ShowDiv();" style="margin-top: 10px;"/>Convert Text</button>
-    <div id="encoded-html" style="display:none;">
-      <h4>Converted HTML</h4></div>
-    <div id="textdata"></div>
+    <h1>Content Editor</h1>
+    <div class="controls">
+      <label for="articleSelect">Select Article:</label>
+      <select id="articleSelect">
+        <option value="">-- Select an article --</option>
+      </select>
+      <button type="button" onclick="loadArticle()">Load Article</button>
+      <button type="button" onclick="createNewArticle()">New Article</button>
+      <br><br>
+      <label for="articleTitle">Title:</label>
+      <input type="text" id="articleTitle" placeholder="Article title">
+      <label for="articleDate">Date:</label>
+      <div id="dateSelector" style="display: inline-block;">
+        <select id="dateDay" style="margin-right: 5px;">
+          <option value="">Day</option>
+        </select>
+        <select id="dateMonth" style="margin-right: 5px;">
+          <option value="">Month</option>
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+        <select id="dateYear" style="margin-right: 5px;">
+          <option value="">Year</option>
+        </select>
+        <input type="text" id="articleDate" placeholder="Or enter date manually" style="width: 200px; margin-left: 10px;">
+      </div>
+      <label for="articleImage" style="display: block; margin-top: 10px;">Image URL:</label>
+      <input type="text" id="articleImage" placeholder="Image URL (optional)">
+    </div>
+    <div id="status"></div>
+    <div id="editor"></div>
+    <div style="margin-top: 20px;">
+      <button type="button" onclick="saveArticle()" id="saveBtn">Save Article</button>
+      <button type="button" onclick="deleteArticle()" id="deleteBtn" style="background-color: #dc3545;">Delete Article</button>
+      <button type="button" onclick="saveToJSONFile()" id="saveFileBtn">Save to File</button>
+      <button type="button" onclick="downloadJSON()" id="downloadBtn">Download JSON (Fallback)</button>
+      <button type="button" onclick="loadAllArticles()" id="refreshBtn">Refresh List</button>
+    </div>
+    <div style="margin-top: 10px; padding: 10px; background-color: #d1ecf1; border: 1px solid #bee5eb; border-radius: 4px;">
+      <strong>How to use:</strong> Click "Save Article" to update in memory, then "Save to File" to overwrite the file directly. On first use, you'll be asked to select <code>json/content.json</code>. The browser will remember your selection for future saves. <strong>Note:</strong> This works with local files. For server files, use the download option and manually replace the file.
+    </div>
     <script>
-      function removeLineBreaks (text) {
-          // Line Breaks
-          var text = text.replace(/\r\n?|\n/g, "<br>");
-          return text;
+      let editor;
+      let contentData = { articles: [] };
+      let currentArticleId = null;
+      let fileHandle = null; // For File System Access API
+
+      // Try to restore file handle from localStorage (if supported)
+      async function restoreFileHandle() {
+        if (!window.showOpenFilePicker) return;
+        
+        try {
+          const handleData = localStorage.getItem('notepad_file_handle');
+          if (handleData) {
+            // Note: File handles can't be serialized, so we'll just clear it
+            // User will need to reselect the file
+            localStorage.removeItem('notepad_file_handle');
+          }
+        } catch (e) {
+          console.warn('Could not restore file handle:', e);
+        }
       }
 
-      function htmlEncode (html) {
-          var html = removeLineBreaks(html);
-          return html.replace(/[&"'\<\>]/g, function(c)
-          {
-                switch (c)
-                {
-                    case "&":
-                      return "&amp;";
-                    case "'":
-                      return "&#39;";
-                    case '"':
-                      return "&quot;";
-                    case "<":
-                      return "&lt;";
-                    default:
-                      return "&gt;";
-                }
-          });
-      };
-
-      function ShowDiv() {
-          document.getElementById("encoded-html").style.display = "";
+      // Load from localStorage if available
+      function loadFromLocalStorage() {
+        try {
+          const saved = localStorage.getItem('notepad_content_backup');
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (confirm('Found saved content in browser storage. Load it?')) {
+              contentData = parsed;
+              populateArticleSelect();
+              showStatus('Content loaded from browser storage', 'success');
+              return true;
+            }
+          }
+        } catch (e) {
+          console.warn('Could not load from localStorage:', e);
+        }
+        return false;
       }
 
+      // Load all articles from JSON
+      function loadAllArticles() {
+        // First try to load from localStorage
+        if (!loadFromLocalStorage()) {
+          // If not in localStorage or user declined, load from file
+          fetch('json/content.json')
+            .then(response => {
+              if (!response.ok) throw new Error('Failed to load content');
+              return response.json();
+            })
+            .then(data => {
+              contentData = data;
+              populateArticleSelect();
+              // Save to localStorage as backup
+              try {
+                localStorage.setItem('notepad_content_backup', JSON.stringify(data));
+              } catch (e) {
+                console.warn('Could not save to localStorage:', e);
+              }
+              showStatus('Articles loaded successfully', 'success');
+            })
+            .catch(error => {
+              console.error('Error loading articles:', error);
+              // Try to load from localStorage as fallback
+              if (loadFromLocalStorage()) {
+                showStatus('Loaded from browser storage (file not accessible)', 'info');
+              } else {
+                showStatus('Error loading articles: ' + error.message, 'error');
+              }
+            });
+        }
+      }
+
+      // Initialize date selectors
+      function initializeDateSelectors() {
+        // Populate days (1-31)
+        const daySelect = document.getElementById('dateDay');
+        for (let i = 1; i <= 31; i++) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = i;
+          daySelect.appendChild(option);
+        }
+
+        // Populate years (current year ± 10 years)
+        const yearSelect = document.getElementById('dateYear');
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear + 10; i >= currentYear - 50; i--) {
+          const option = document.createElement('option');
+          option.value = i;
+          option.textContent = i;
+          yearSelect.appendChild(option);
+        }
+
+        // Add event listeners to update the date field when selections change
+        document.getElementById('dateDay').addEventListener('change', updateDateFromSelectors);
+        document.getElementById('dateMonth').addEventListener('change', updateDateFromSelectors);
+        document.getElementById('dateYear').addEventListener('change', updateDateFromSelectors);
+      }
+
+      // Update the date text field from the selectors
+      function updateDateFromSelectors() {
+        const day = document.getElementById('dateDay').value;
+        const month = document.getElementById('dateMonth').value;
+        const year = document.getElementById('dateYear').value;
+
+        if (day && month && year) {
+          // Format: "1 October, 2021" or similar
+          document.getElementById('articleDate').value = `${day} ${month}, ${year}`;
+        } else if (month && year) {
+          document.getElementById('articleDate').value = `${month}, ${year}`;
+        } else if (month) {
+          document.getElementById('articleDate').value = month;
+        }
+      }
+
+      // Parse date string and populate selectors
+      function parseDateToSelectors(dateString) {
+        if (!dateString) {
+          document.getElementById('dateDay').value = '';
+          document.getElementById('dateMonth').value = '';
+          document.getElementById('dateYear').value = '';
+          return;
+        }
+
+        // Try to parse various date formats
+        // Format examples: "1 October, 2021", "October, 2021", "1 Οκτωβρίου, 2021", etc.
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        // Try to find month name
+        let foundMonth = '';
+        let monthIndex = -1;
+        for (let i = 0; i < months.length; i++) {
+          if (dateString.includes(months[i])) {
+            foundMonth = months[i];
+            monthIndex = i;
+            break;
+          }
+        }
+
+        if (monthIndex >= 0) {
+          document.getElementById('dateMonth').value = foundMonth;
+          
+          // Try to extract day
+          const dayMatch = dateString.match(/\b(\d{1,2})\b/);
+          if (dayMatch) {
+            const day = parseInt(dayMatch[1]);
+            if (day >= 1 && day <= 31) {
+              document.getElementById('dateDay').value = day;
+            }
+          }
+
+          // Try to extract year
+          const yearMatch = dateString.match(/\b(19|20)\d{2}\b/);
+          if (yearMatch) {
+            document.getElementById('dateYear').value = yearMatch[0];
+          }
+        }
+
+        // Always set the text field to the original value
+        document.getElementById('articleDate').value = dateString;
+      }
+
+      // Initialize CKEditor
       ClassicEditor
-              .create( document.querySelector( '#editor' ) )
-              .then( editor => {
-                      console.log( editor );
-              } )
-              .catch( error => {
-                      console.error( error );
-              } );
+        .create(document.querySelector('#editor'))
+        .then(ed => {
+          editor = ed;
+          console.log('Editor initialized');
+          initializeDateSelectors();
+          restoreFileHandle();
+          loadAllArticles();
+        })
+        .catch(error => {
+          console.error('Error initializing editor:', error);
+          showStatus('Error initializing editor', 'error');
+        });
+
+      // Populate the article select dropdown
+      function populateArticleSelect() {
+        const select = document.getElementById('articleSelect');
+        select.innerHTML = '<option value="">-- Select an article --</option>';
+        
+        contentData.articles.forEach(article => {
+          const option = document.createElement('option');
+          option.value = article.id;
+          option.textContent = `${article.id}: ${article.title}`;
+          select.appendChild(option);
+        });
+      }
+
+      // Load a specific article into the editor
+      function loadArticle() {
+        const select = document.getElementById('articleSelect');
+        const articleId = parseInt(select.value);
+        
+        if (!articleId) {
+          showStatus('Please select an article', 'info');
+          return;
+        }
+
+        const article = contentData.articles.find(a => a.id === articleId);
+        if (!article) {
+          showStatus('Article not found', 'error');
+          return;
+        }
+
+        currentArticleId = articleId;
+        document.getElementById('articleTitle').value = article.title || '';
+        parseDateToSelectors(article.date || '');
+        document.getElementById('articleImage').value = article.image || '';
+        
+        if (editor) {
+          editor.setData(article.text || '');
+        }
+        
+        showStatus('Article loaded', 'success');
+      }
+
+      // Create a new article
+      function createNewArticle() {
+        // Find the highest ID and add 1
+        const maxId = contentData.articles.length > 0 
+          ? Math.max(...contentData.articles.map(a => a.id))
+          : 0;
+        const newId = maxId + 1;
+
+        currentArticleId = newId;
+        document.getElementById('articleTitle').value = '';
+        document.getElementById('dateDay').value = '';
+        document.getElementById('dateMonth').value = '';
+        document.getElementById('dateYear').value = '';
+        document.getElementById('articleDate').value = '';
+        document.getElementById('articleImage').value = '';
+        
+        if (editor) {
+          editor.setData('');
+        }
+
+        // Update select to show new article
+        const select = document.getElementById('articleSelect');
+        select.value = newId;
+        
+        showStatus('New article created (ID: ' + newId + '). Fill in the details and save.', 'info');
+      }
+
+      // Save the current article to memory and localStorage
+      function saveArticle() {
+        const title = document.getElementById('articleTitle').value.trim();
+        const date = document.getElementById('articleDate').value.trim();
+        const image = document.getElementById('articleImage').value.trim();
+        
+        if (!title) {
+          showStatus('Please enter a title', 'error');
+          return;
+        }
+
+        if (!currentArticleId) {
+          showStatus('Please load or create an article first', 'error');
+          return;
+        }
+
+        const text = editor ? editor.getData() : '';
+
+        // Find existing article or create new one
+        let articleIndex = contentData.articles.findIndex(a => a.id === currentArticleId);
+        
+        const articleData = {
+          id: currentArticleId,
+          title: title,
+          date: date,
+          image: image,
+          text: text
+        };
+
+        if (articleIndex >= 0) {
+          // Update existing article
+          contentData.articles[articleIndex] = articleData;
+        } else {
+          // Add new article
+          contentData.articles.push(articleData);
+          // Sort by ID descending (newest first)
+          contentData.articles.sort((a, b) => b.id - a.id);
+        }
+
+        // Save to localStorage as backup
+        try {
+          localStorage.setItem('notepad_content_backup', JSON.stringify(contentData));
+        } catch (e) {
+          console.warn('Could not save to localStorage:', e);
+        }
+
+        // Update the UI
+        populateArticleSelect();
+        
+        // Try to save directly to file if we have file handle
+        if (fileHandle) {
+          saveToFile(fileHandle);
+        } else {
+          showStatus('Article saved to memory! Click "Save to File" to overwrite json/content.json.', 'success');
+        }
+      }
+
+      // Delete the current article
+      function deleteArticle() {
+        if (!currentArticleId) {
+          showStatus('Please load an article first', 'error');
+          return;
+        }
+
+        const article = contentData.articles.find(a => a.id === currentArticleId);
+        const articleTitle = article ? article.title : `Article #${currentArticleId}`;
+
+        if (!confirm(`Are you sure you want to delete "${articleTitle}"?\n\nThis action cannot be undone.`)) {
+          return;
+        }
+
+        // Remove the article from the array
+        const articleIndex = contentData.articles.findIndex(a => a.id === currentArticleId);
+        if (articleIndex >= 0) {
+          contentData.articles.splice(articleIndex, 1);
+        }
+
+        // Clear the form
+        currentArticleId = null;
+        document.getElementById('articleTitle').value = '';
+        document.getElementById('dateDay').value = '';
+        document.getElementById('dateMonth').value = '';
+        document.getElementById('dateYear').value = '';
+        document.getElementById('articleDate').value = '';
+        document.getElementById('articleImage').value = '';
+        document.getElementById('articleSelect').value = '';
+        
+        if (editor) {
+          editor.setData('');
+        }
+
+        // Save to localStorage as backup
+        try {
+          localStorage.setItem('notepad_content_backup', JSON.stringify(contentData));
+        } catch (e) {
+          console.warn('Could not save to localStorage:', e);
+        }
+
+        // Update the UI
+        populateArticleSelect();
+        showStatus(`Article "${articleTitle}" deleted from memory! Click "Save to File" to update json/content.json.`, 'success');
+
+        // Try to save directly to file if we have file handle
+        if (fileHandle) {
+          saveToFile(fileHandle);
+        }
+      }
+
+      // Save directly to file using File System Access API
+      async function saveToFile(handle) {
+        try {
+          const jsonString = JSON.stringify(contentData, null, 2);
+          const writable = await handle.createWritable();
+          await writable.write(jsonString);
+          await writable.close();
+          
+          // Verify we can still access the file (permission check)
+          await handle.getFile();
+          
+          showStatus('File saved successfully! The file has been overwritten.', 'success');
+        } catch (error) {
+          console.error('Error saving file:', error);
+          // If permission was revoked, clear the handle
+          if (error.name === 'NotAllowedError' || error.name === 'NotFoundError') {
+            fileHandle = null;
+            showStatus('File access lost. Please select the file again.', 'error');
+          } else {
+            showStatus('Error saving file: ' + error.message, 'error');
+          }
+        }
+      }
+
+      // Request file access and save
+      async function saveToJSONFile() {
+        if (!window.showOpenFilePicker && !window.showSaveFilePicker) {
+          // Fallback for browsers that don't support File System Access API
+          downloadJSON();
+          return;
+        }
+
+        try {
+          // Try to open existing file first, or create new one
+          if (!fileHandle) {
+            if (window.showOpenFilePicker) {
+              // Try to open existing file
+              try {
+                [fileHandle] = await window.showOpenFilePicker({
+                  types: [{
+                    description: 'JSON files',
+                    accept: { 'application/json': ['.json'] }
+                  }],
+                  multiple: false
+                });
+              } catch (openError) {
+                // If file doesn't exist or user cancels, try to save new file
+                if (window.showSaveFilePicker) {
+                  fileHandle = await window.showSaveFilePicker({
+                    suggestedName: 'content.json',
+                    types: [{
+                      description: 'JSON files',
+                      accept: { 'application/json': ['.json'] }
+                    }]
+                  });
+                } else {
+                  throw openError;
+                }
+              }
+            } else if (window.showSaveFilePicker) {
+              fileHandle = await window.showSaveFilePicker({
+                suggestedName: 'content.json',
+                types: [{
+                  description: 'JSON files',
+                  accept: { 'application/json': ['.json'] }
+                }]
+              });
+            }
+          }
+          
+          await saveToFile(fileHandle);
+        } catch (error) {
+          if (error.name === 'AbortError') {
+            showStatus('Save cancelled', 'info');
+          } else {
+            console.error('Error accessing file:', error);
+            showStatus('Error accessing file. Using download fallback.', 'error');
+            downloadJSON();
+          }
+        }
+      }
+
+      // Download the JSON file (fallback)
+      function downloadJSON() {
+        const jsonString = JSON.stringify(contentData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'content.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showStatus('JSON file downloaded! Replace json/content.json with the downloaded file.', 'success');
+      }
+
+      // Show status message
+      function showStatus(message, type) {
+        const statusDiv = document.getElementById('status');
+        statusDiv.className = 'status ' + (type || 'info');
+        statusDiv.textContent = message;
+        statusDiv.style.display = 'block';
+        
+        // Auto-hide after 5 seconds for success messages
+        if (type === 'success') {
+          setTimeout(() => {
+            statusDiv.style.display = 'none';
+          }, 5000);
+        }
+      }
     </script>
   </body>
 </html>
