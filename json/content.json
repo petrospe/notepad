@@ -1,0 +1,25 @@
+{
+  "articles":[
+    {
+      "id":3,
+      "title":"Επικές μεταφράσεις",
+      "date":"1 October, 2021",
+      "image":"",
+      "text":"<p>Πεδίον του Άρεως = Mars field<br>Μοναστηράκι = Small Monastery<br>Πλατεία Ομόνοιας = Concord Square<br>Πλατεία Συντάγματος = Constitution Square<br>Πλάκα = Plate<br>Κολωνάκι = Small Column<br>Πλατεία Βάθης = Deep Square<br>Λεωφόρος Βασιλίσσης Σοφίας = Queen Wisdom Avenue<br>Νέος Κόσμος = New World (παλιό)<br>Κυψέλη = Ηive<br>Γουδί = Μortar<br>Αμπελόκηποι = Vineyards<br>Ζωγράφου = Painter's<br>Φάρος Ψυχικού = Mental's Lighthouse<br>Μελίσσια = Beehives<br>Οδος Εθνικής Αντιστάσεως = National Resistance Road<br>Τρεις Γέφυρες = Three Bridges<br>Πετρούπολη = Stonecity<br>Ανθούπολη = Flowercity<br>Μαγούλα = Cheeks<br>Μάνδρα = Paddock<br>Δήμος Μεταμόρφωσης-Λυκόβρυσης = Municipality of Transformation-Wolf Fountain<br>Δήμος Περιστέριου = Municipality of Dove<br>Δημος Καλλιθέας = Municipality of Νice view (nice view μονο από το Sicily Hill)<br>Δημος Μοσχάτου Ταύρου = Municipality of Muscatel Bull (κάπου στην Ισπανία είναι αυτό;)<br>Αμφιθέα = Semiview (περίπου σαν simifinal)<br>Παναγίτσα = Little Virgin or Little Madonna (εδώ έχεις ένα συνειρμό με Madonna - Like a virgin!)<br>Ηλιούπουλη = Suncity (τετριμμένα)<br>Αργυρούπολη= Silvercity (τετριμμένα)<br>Δήμος Βούλας Βουλιαγμένης = Municipality of Sunken Dot (σαν κινέζικη πόλη ακούγεται)<br>Λαιμός Βουλιαγμένης = Sunken's Neck<br>Καβούρι = Crab<br>Λαγονήσι = Rabbit Island (σαν την Αλίκη στη χώρα των θαυμάτων περίπου)<br>Παραλία Σχοινια = Ropes Beach</p><p>και για το τέλος Ακρόπολη = Edgecity</p>"
+    },
+    {
+      "id":2,
+      "title":"Cras egestas magna sit amet bibendum euismod",
+      "date":"8 September, 2021",
+      "image":"https://image.petmd.com/files/styles/978x550/public/2023-09/how-smart-are-cats.jpg",
+      "text":"<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin vulputate, dolor vitae sagittis vestibulum, nisi massa cursus ex, id gravida nisi arcu in justo. Maecenas elementum ullamcorper molestie. Nulla facilisi. Sed dignissim laoreet nibh vel condimentum. Suspendisse vel velit ligula. In interdum dignissim facilisis. Sed et facilisis nunc. Quisque quis lectus quis felis luctus viverra quis eu turpis. Pellentesque nec mi at nisl posuere consectetur quis vel diam. Proin euismod ex vel magna egestas tincidunt. Curabitur vel scelerisque velit, ut placerat justo. Mauris mollis sit amet quam ut porttitor.<br /><br />Curabitur sagittis, ligula vel dictum molestie, dolor lacus sollicitudin enim, ac euismod mi arcu et odio. Pellentesque euismod sapien felis, et tincidunt erat commodo et. Vestibulum quis posuere dui. Nam aliquet fringilla eros, gravida pulvinar lectus auctor lobortis. Cras at commodo nibh. Aliquam condimentum lacus odio, eget consectetur dolor ornare at. Nunc at commodo turpis. Nullam sed nulla eu turpis vulputate ultricies. Vestibulum sed velit nulla. Curabitur id lectus metus. Fusce hendrerit sed enim sed euismod. Aliquam eget purus a eros pharetra tempor ac non est.</p>"
+    },
+    {
+      "id":1,
+      "title":"A new site is born",
+      "date":"11 June, 2021",
+      "image":"",
+      "text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus.  Praesent et diam eget libero egestas mattis sit amet vitae augue.  Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis.Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Vivamus fermentum semper porta. <br /><br />Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.<br /><br /> Curabitur ornare, ligula semper consectetur sagittis, nisi diam iaculis velit, id fringilla sem nunc vel mi. Ut convallis libero in urna ultrices accumsan."
+    }
+  ]
+}
